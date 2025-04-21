@@ -15,6 +15,9 @@ class TaskController extends Controller
         $query = Task::where('created_by', $userId);
 
         if(request('from') && request('to')) {
+            if (request('from') > request('to') || request('from') == request('to') ) {
+                return redirect()->back()->with('error', 'Invalid date range');
+            }
             $query->whereBetween('date', [request('from'), request('to')]);
         }
 
